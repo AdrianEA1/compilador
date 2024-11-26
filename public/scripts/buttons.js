@@ -136,23 +136,23 @@ function lexico() {
         // Clasificación del token según el estado alcanzado
         switch (v_estado) {
             case 48:
-                console.log(v_resultado + ' Es palabra reservada');
+                console.log(v_resultado + ' Keyword');
                 break;
             case 45:
-                console.log(v_resultado + ' Es cadena');
+                console.log(v_resultado + ' Text Constant');
                 break;
             case 43:
             case 42:
-                console.log(v_resultado + ' Es operador');
+                console.log(v_resultado + ' Operator');
                 break;
             case 44:
-                console.log(v_resultado + ' Es constante numérica');
+                console.log(v_resultado + ' Numeric Constant');
                 break;
             case 46:
-                console.log(v_resultado + ' Es identificador');
+                console.log(v_resultado + ' Identifier');
                 break;
             default:
-                console.log(v_resultado + ' Es inválido');
+                console.log(v_resultado + ' Not Recognized By The Language');
         }
 
         v_contador++;

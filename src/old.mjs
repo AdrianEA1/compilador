@@ -75,23 +75,23 @@ function alexico() {
             let tipo;
 
             if (token[0] === '$' && isNaN(token[1]) && [...token].every(caracter => alfabeto.includes(caracter))) tipo = "Identificador";
-            else if (keywords.includes(token)) tipo = "Palabra Clave";
-            else if (!isNaN(token)) tipo = "Constante numérica";
-            else if (token[0] === '"' && token[token.length-1] === '"') tipo = "Constante de texto"
-            else if (operators.includes(token)) tipo = "Operador";
-            else if (groupSigns.includes(token)) tipo = "Delimitadores";
+            else if (keywords.includes(token)) tipo = "Keyword";
+            else if (!isNaN(token)) tipo = "Numeric Constant";
+            else if (token[0] === '"' && token[token.length-1] === '"') tipo = "Text Constant"
+            else if (operators.includes(token)) tipo = "Operator";
+            else if (groupSigns.includes(token)) tipo = "Delimiters";
             else{
-                tipo = "No reconocido por el lenguaje";
+                tipo = "Not recognized by the language";
                 let error;
                 if (!isNaN(token[0]) && ((token.split(".").length-1) > 1 || [...token].some(char => isNaN(char) && char !== '.')))
-                    error = "Error: Constante numérica invalida. Línea: " + (lineIndex + 1) + " Columna: " + (line.indexOf(token) + 1)
+                    error = "Error: Invalid Numeric Constant. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
                 else if (token[0] === '"' && token[token.length-1] !== '"')
-                    error = "Error: Constante de texto invalida. Línea: " + (lineIndex + 1) + " Columna: " + (line.indexOf(token) + 1)
+                    error = "Error: Invalid Text Constant. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
                 //else if (!isNaN(token[0]) && ((token.split(".").length-1) > 1 || [...token].some(char => isNaN(char) && char !== '.')))
                 else if (![...token].every(caracter => alfabeto.includes(caracter)))
-                    error = "Error: Caracter no permitido. Línea: " + (lineIndex + 1) + " Columna: " + (line.indexOf(token) + 1)
+                    error = "Error: Character Not Allowed. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
                 else
-                    error = "Error: Nombre de identificador invalido. Línea: " + (lineIndex + 1) + " Columna: " + (line.indexOf(token) + 1)
+                    error = "Error: Invalid Identifier Name. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
                 errorStack.pushError(error, lineIndex + 1, line.indexOf(token) + 1)
                 //console.log(errorId)
             }
@@ -173,9 +173,11 @@ function asintactico() {
     // const tree = parser.program();
 // Imprimir los errores almacenados
     // errorStack = errorListener.getErrors();
+
+    console.log("Pila Estrada")
     console.log("Errores:", errorStack);
 // Imprimir el árbol sintáctico
-    console.log("Árbol:", tree.toStringTree(parser.ruleNames));
+    //console.log("Árbol:", tree.toStringTree(parser.ruleNames));
 
 
     //Fin G4
@@ -218,7 +220,7 @@ function verificarBalanceo(codigo, errorStack) {
             } else if (cierran.includes(char)) {
                 // Verificar si la pila está vacía antes de hacer pop
                 if (stack.length === 0) {
-                    errorStack.pushError(`Balanceo incorrecto: Se encontró un '${char}' en la línea ${lineNumber + 1}, columna ${colNumber + 1}, pero no hay ningún paréntesis de apertura correspondiente.`, lineNumber + 1, colNumber + 1)
+                    errorStack.pushError(`Unbalanced: Found a '${char}' at line ${lineNumber + 1}, column ${colNumber + 1}, but there is no corresponding opening parenthesis.`, lineNumber + 1, colNumber + 1)
                     return errorStack;
                 }
 
@@ -226,7 +228,7 @@ function verificarBalanceo(codigo, errorStack) {
 
                 // Si el último carácter de apertura no coincide con el carácter de cierre
                 if (abren.indexOf(ultimo.char) !== cierran.indexOf(char)) {
-                    errorStack.pushError(`Balanceo incorrecto: Se esperaba un '${abren[cierran.indexOf(char)]}' en la línea ${ultimo.line}, columna ${ultimo.column}. Pero se encontró un '${char}' en línea ${lineNumber + 1}, columna ${colNumber + 1}.`, 0, 0)
+                    errorStack.pushError(`Unbalanced: Expected a '${abren[cierran.indexOf(char)]}' at line ${ultimo.line}, column ${ultimo.column}. But found a '${char}' at line ${lineNumber + 1}, column ${colNumber + 1}.`, 0, 0)
                     return errorStack;
                 }
             }
@@ -236,7 +238,7 @@ function verificarBalanceo(codigo, errorStack) {
     // Si la pila no está vacía, significa que faltan caracteres de cierre
     if (stack.length > 0) {
         const ultimo = stack[stack.length - 1];
-        errorStack.pushError(`Balanceo incorrecto: Falta un '${cierran[abren.indexOf(ultimo.char)]}' en la línea ${ultimo.line}, columna ${ultimo.column}.`, cierran[abren.indexOf(ultimo.char)], ultimo.column)
+        errorStack.pushError(`Unbalanced: Missing a '${cierran[abren.indexOf(ultimo.char)]}' at line ${ultimo.line}, column ${ultimo.column}.`, cierran[abren.indexOf(ultimo.char)], ultimo.column)
         return errorStack;
     }
 

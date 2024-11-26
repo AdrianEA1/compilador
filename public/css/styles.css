@@ -112,6 +112,11 @@
   .highlighted-word {
     color: dodgerblue;
   }
+
+/* Clase para los comentarios */
+.comment-word {
+  color: lightslategray;
+}
   
   .right-panel {
     width: 40%;
