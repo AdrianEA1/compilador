@@ -113,9 +113,10 @@
     color: dodgerblue;
   }
 
-  .comment-word {
-    color: rgb(18, 214, 35);
-  }
+/* Clase para los comentarios */
+.comment-word {
+  color: lightslategray;
+}
   
   .right-panel {
     width: 40%;
