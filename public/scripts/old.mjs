@@ -90,7 +90,7 @@ function alexico() {
         tokens.forEach((token)=>{
             let tipo;
 
-            if (token[0] === '$' && isNaN(token[1]) && [...token].every(caracter => alfabeto.includes(caracter))) tipo = "Identificador";
+            if (token[0] === '$' && isNaN(token[1]) && [...token].every(caracter => alfabeto.includes(caracter))) tipo = "Identifier";
             else if (keywords.includes(token)) tipo = "Keyword";
             else if (!isNaN(token)) tipo = "Numeric Constant";
             else if (token[0] === '"' && token[token.length-1] === '"') tipo = "Text Constant"
@@ -125,8 +125,19 @@ function alexico() {
                 newRow.insertCell(1).textContent = token;
                 newRow.insertCell(2).textContent = `${lineIndex + 1}, ${line.indexOf(token) + 1}`;
 
+                let value = ""
+                if (tipo === "Identifier" && tokens[tokens.indexOf(token) + 1] === "=" ){
+                    let valueToken = tokens[tokens.indexOf(token) + 2];
+
+                    if (!isNaN(valueToken) || (valueToken[0] === '"' && valueToken[valueToken.length-1] === '"')){
+                        value = valueToken;
+                    }
+
+                }
+
+                newRow.insertCell(3).textContent = value;
                 //Añadir a la TokenTable
-                tablaSimbolos.addToken(tipo, token, lineIndex + 1, line.indexOf(token) + 1);
+                tablaSimbolos.addToken(tipo, token, value, lineIndex + 1, line.indexOf(token) + 1);
 
                 //tablaSimbolos.readToken(1); // Leer el primer token
                 //tablaSimbolos.updateToken(1, "Identificador", "y", 1, 6);
@@ -349,11 +360,11 @@ class TokenTable {
     }
 
     // Método para agregar un token a la tabla
-    addToken(type, value, line, column) {
-        const token = new Token(type, value, line, column); // Crear una instancia de Token
+    addToken(type, token, value, line, column) {
+        const tok = new Token(type, token, value, line, column); // Crear una instancia de Token
         this.tabla.push({
             id: ++this.id,
-            token: token,
+            token: tok,
         });
         //console.log(`Token agregado: ID=${this.id}, Token=${JSON.stringify(token)}`);
     }
@@ -394,9 +405,10 @@ class TokenTable {
 }
 
 class Token {
-    constructor(type, value, line, column) {
+    constructor(type, token, value, line, column) {
         this.type = type || "";   // Tipo del token (por ejemplo, "Identificador", "Palabra Clave", etc.)
-        this.value = value || ""; // Valor del token (el texto que representa)
+        this.token = token || ""; // Valor del token (el texto que representa)
+        this.value = value || ""; // Valor del token (contenido)
         this.line = line || 0;    // Línea en la que aparece el token
         this.column = column || 0; // Columna en la que aparece el token
     }
