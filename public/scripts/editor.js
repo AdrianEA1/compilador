@@ -33,8 +33,8 @@
 //     sel.addRange(range);
 // }
 
-const regex = /\b(if|else|elseif|while|foreach|break|echo|fscan|return|this|as)\b/gi;
-
+const regex = /(?<!\/\/.*)\b(if|else|elseif|while|foreach|break|echo|fscan|return|this|as)\b/gi;
+const rege = /\/\/.*/g;
 function highlightText() {
     const textarea = document.getElementById("codeArea");
     const highlightDiv = document.getElementById("codeText");
@@ -42,9 +42,12 @@ function highlightText() {
 
     // Reemplaza las palabras coincidentes con una versión resaltada
     const highlightedText = text.replace(regex, (match) => `<span class="highlighted-word">${match}</span>`);
-    
+    // console.log(highlightedText.replace(rege, (match) => `<span class="comment-word">${match}</span>`))
+    const newhighlightedText = highlightedText.replace(rege, (match) => `<span class="comment-word">${match}</span>`);
+
     // Actualiza el div con el texto resaltado
-    highlightDiv.innerHTML = highlightedText;
+    // highlightDiv.innerHTML = highlightedText;
+    highlightDiv.innerHTML = newhighlightedText;
   }
 
 // const textarea = document.getElementById('codeArea');

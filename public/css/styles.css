@@ -112,6 +112,10 @@
   .highlighted-word {
     color: dodgerblue;
   }
+
+  .comment-word {
+    color: rgb(18, 214, 35);
+  }
   
   .right-panel {
     width: 40%;
