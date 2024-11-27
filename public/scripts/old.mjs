@@ -76,19 +76,12 @@ function alexico() {
         //console.log(isComment)
         //console.log(line.trim()[0] + line.trim()[1])
 
-        /*
-        if(isComment){
-            const highlightDiv = document.getElementById("codeText");
-            const highlightedText = code.replace(line, (match) => `<span class="comment-word">${match}</span>`);
-
-            // Actualiza el div con el texto resaltado
-            highlightDiv.innerHTML = highlightedText;
-
-        }*/
 
 
-        tokens.forEach((token)=>{
+        for (let token of tokens) {
             let tipo;
+            console.log(token)
+            if ( (token[0] + token[1]) === "//" ) break
 
             if (token[0] === '$' && isNaN(token[1]) && [...token].every(caracter => alfabeto.includes(caracter))) tipo = "Identifier";
             else if (keywords.includes(token)) tipo = "Keyword";
@@ -181,7 +174,8 @@ function alexico() {
 
 
 
-        })
+        }
+
 
     });
     //Imprimir errores si existen
