@@ -5,8 +5,8 @@ program
     ;
 
 statement
-    : variableDeclaration
-    | printStatement
+    : variableDeclaration 
+    | printStatement 
     | ifStatement
     | forStatement
     | whileStatement
@@ -21,15 +21,23 @@ printStatement
     ;
 
 ifStatement
-    : 'if' '(' expression ')' '{' statement* '}' ('else' '{' statement* '}')?
-    ;
-
-forStatement
-    : 'foreach' '(' Identificador 'as' Identificador ')' '{' statement* '}'
+    : 'if' '(' expression ')' (singleStatement | blockStatement) ('else' (singleStatement | blockStatement))?
     ;
 
 whileStatement
-    : 'while' '(' expression ')' '{' statement* '}'
+    : 'while' '(' expression ')' (singleStatement | blockStatement)
+    ;
+
+forStatement
+    : 'foreach' '(' Identificador 'as' Identificador ')' (singleStatement | blockStatement)
+    ;
+
+singleStatement
+    : statement // Una sola instrucción
+    ;
+
+blockStatement
+    : '{' statement* '}' // Bloque de múltiples instrucciones
     ;
 
 expression
