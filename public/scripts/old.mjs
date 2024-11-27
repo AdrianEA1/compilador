@@ -121,22 +121,54 @@ function alexico() {
             if (token !== '' && !isComment){
                 //Añadir al frontend
                 const newRow = tokenTable.insertRow();
-                newRow.insertCell(0).textContent = tipo;
-                newRow.insertCell(1).textContent = token;
-                newRow.insertCell(2).textContent = `${lineIndex + 1}, ${line.indexOf(token) + 1}`;
 
                 let value = ""
-                if (tipo === "Identifier" && tokens[tokens.indexOf(token) + 1] === "=" ){
-                    let valueToken = tokens[tokens.indexOf(token) + 2];
+                if (tipo === "Identifier"){
+                    let id = -1
+                    let index = 0
+                    let deleted
 
-                    if (!isNaN(valueToken) || (valueToken[0] === '"' && valueToken[valueToken.length-1] === '"')){
-                        value = valueToken;
+                    for (let fila of tokenTable.rows) {
+                        //console.log("fila")
+                        for (let celda of fila.cells) {
+
+                            if (celda.textContent === token){
+                                id = index;
+                                deleted = fila
+                            }
+                        }
+                        index++
                     }
+                    //console.log(id)
+                    //console.log(deleted)
+                    //console.log(deleted.cells[1].textContent);
+                    //console.log(deleted.split(""))
+                    if (id !== -1){
+                        if (deleted.cells.length>3)
+                            value = deleted.cells[3].textContent
+                        tokenTable.deleteRow(id)
+                    }
+
+                    if (tokens[tokens.indexOf(token) + 1] === "=" ){
+                        let valueToken = tokens[tokens.indexOf(token) + 2];
+                        if (!isNaN(valueToken) || (valueToken[0] === '"' && valueToken[valueToken.length-1] === '"'))
+                            value = valueToken;
+                    }
+
 
                 }
 
+                newRow.insertCell(0).textContent = tipo;
+                newRow.insertCell(1).textContent = token;
+                newRow.insertCell(2).textContent = `${lineIndex + 1}, ${line.indexOf(token) + 1}`;
                 newRow.insertCell(3).textContent = value;
+
                 //Añadir a la TokenTable
+                //let virtualTokens =  tablaSimbolos.getTable()
+                //console.log(virtualTokens)
+                //let previous = virtualTokens.find(obj => obj.token.token === token) || null
+                //console.log("previous: " + previous)
+
                 tablaSimbolos.addToken(tipo, token, value, lineIndex + 1, line.indexOf(token) + 1);
 
                 //tablaSimbolos.readToken(1); // Leer el primer token
@@ -359,6 +391,10 @@ class TokenTable {
         this.tabla = []; // Lista para almacenar las instancias de tokens
     }
 
+    getTable(){
+        return this.tabla;
+    }
+
     // Método para agregar un token a la tabla
     addToken(type, token, value, line, column) {
         const tok = new Token(type, token, value, line, column); // Crear una instancia de Token
@@ -370,11 +406,12 @@ class TokenTable {
     }
 
     // Método para actualizar un token por ID
-    updateToken(id, newType, newValue, newLine, newColumn) {
+    updateToken(id, newType, newToken, newValue, newLine, newColumn) {
         const entry = this.tabla.find((t) => t.id === id);
         if (entry) {
             const token = entry.token;
             token.type = newType || token.type;
+            token.token = newToken || token.token;
             token.value = newValue || token.value;
             token.line = newLine || token.line;
             token.column = newColumn || token.column;
