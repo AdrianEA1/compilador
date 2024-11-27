@@ -108,6 +108,7 @@ function alexico() {
                     error = "Error: Not Allowed Character. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
                 else
                     error = "Error: Invalid Identifier Name. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
+                if (isComment) error = ""
                 errorStack.pushError(error, lineIndex + 1, line.indexOf(token) + 1)
                 //console.log(errorId)
             }
