@@ -221,8 +221,9 @@ function asintactico() {
       }
     }
 `;
-
-    const errorSintax = inputAnl(code);
+    const replCode = code.replace(/\/\/.*$/gm, '')
+    // console.log(replCode)
+    const errorSintax = inputAnl(replCode);
 
 // Crear lexer y parser
     // const chars = new antlr4.InputStream(input);
