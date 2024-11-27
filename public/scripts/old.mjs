@@ -261,11 +261,16 @@ function asintactico() {
 
 
     //Imprimir errores si existen
+    /*
     if(errorStack.stack.length > 0){
         console.log("Mane Stack")
         errorArea.value = errorStack.popAllErrors();
-    }
+    }*/
 
+
+}
+
+function asemantico(){
 
 }
 
