@@ -107,11 +107,6 @@ function alexico() {
             }
 
 
-
-
-
-
-
             if (token !== '' && !isComment){
                 //Añadir al frontend
                 const newRow = tokenTable.insertRow();
@@ -170,18 +165,18 @@ function alexico() {
                 //tablaSimbolos.clear();
             }
 
-
-
-
-
         }
-
-
     });
     //Imprimir errores si existen
     if(errorStack.stack.length > 0){
         errorArea.value = errorStack.popAllErrors();
+        document.getElementById('lex').className = "red-color"
+    }else{
+        document.getElementById('lex').className = "light-green"
+        document.getElementById('lex').disabled = true;
+        document.getElementById('sin').disabled = false;
     }
+        
 
     return { tablaSimbolos, errorStack };
 }
@@ -192,11 +187,11 @@ function asintactico() {
     errorArea.value = "";
     //const tokenTable = document.getElementById("tokenTable");
 
-    let { tablaSimbolos, errorStack } = alexico();
+    // let { tablaSimbolos, errorStack } = alexico();
 
     //console.log(tablaSimbolos)
 
-    errorStack = verificarBalanceo(code, errorStack)
+    // errorStack = verificarBalanceo(code, errorStack)
 
     //Implementaci[on G4
 
@@ -245,6 +240,16 @@ function asintactico() {
         sintaxErrors = "Error:" + error + "\n" +  sintaxErrors;
         //console.log(ErrorStack.errorTypes[error.error])
     }
+
+    if(sintaxErrors !== ""){
+        document.getElementById('sin').className = "red-color"
+        // document.getElementById('sin').disabled = true;
+        // document.getElementById('sin').disabled = false;
+    } else{
+        document.getElementById('sin').className = "light-green"
+        document.getElementById('sem').disabled = false;
+    }
+
     console.log(sintaxErrors)
     errorArea.value = sintaxErrors
 

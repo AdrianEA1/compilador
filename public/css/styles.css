@@ -197,7 +197,7 @@
   .buttons button {
     flex: 1;
     padding: 10px;
-    background-color: #d44e10;
+    background-color: #d4c32a;
     color: white;
     border: none;
     border-radius: 5px;
@@ -205,9 +205,15 @@
   }
   
   .buttons button:hover {
-    background-color: #d4c32a;
+    background-color: #80cc53;
   }
-  
+
+  .red-color {
+    background-color: #d63114 !important;
+  }
+  .light-green {
+    background-color: #1fb811 !important;
+  }
   /**/
   .menu-nav {
     position: relative;

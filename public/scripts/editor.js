@@ -32,13 +32,20 @@
 //     sel.removeAllRanges();
 //     sel.addRange(range);
 // }
-
+document.getElementById('sin').disabled = true;
+// document.getElementById('lex').disabled = true;
+document.getElementById('sem').disabled = true;
 const regex = /(?<!\/\/.*)\b(if|else|elseif|while|foreach|break|echo|fscan|return|this|as)\b/gi;
 const rege = /\/\/.*/g;
 function highlightText() {
     const textarea = document.getElementById("codeArea");
     const highlightDiv = document.getElementById("codeText");
     const text = textarea.value;
+    document.getElementById('lex').disabled = false;
+    document.getElementById('lex').className = "";
+    document.getElementById('sin').className = "";
+    document.getElementById('sin').disabled = true;
+    document.getElementById('sem').disabled = true;
 
     // Reemplaza las palabras coincidentes con una versión resaltada
     const highlightedText = text.replace(regex, (match) => `<span class="highlighted-word">${match}</span>`);
