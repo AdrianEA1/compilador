@@ -271,6 +271,106 @@ function asintactico() {
 }
 
 function asemantico(){
+    //console.log("semantic")
+    const code = document.getElementById("codeArea").value;
+    const errorArea = document.getElementById("ErrorArea");
+    errorArea.value = "";
+    const tokenTable = document.getElementById("tokenTable");
+
+    const errorStack = new ErrorStack();
+
+    // Simulación de análisis de tokens (básico)
+    const keywords = [
+        "if",
+        "elseif",
+        "else",
+        "while",
+        "foreach",
+        "break",
+        "echo",
+        "fscan",
+        "return",
+        "this",
+        "as"
+    ];
+    const operators = [
+        "+",
+        "-",
+        "*",
+        "/",
+        "%",
+        "=",
+        "<",
+        ">",
+        "!",
+        "==",
+        "!=",
+        "&&",
+        "||",
+        "->",
+        "++",
+        "--"
+    ];
+    const groupSigns = [
+        "(",
+        ")",
+        "{",
+        "}"
+    ];
+    const alfabeto = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '*', '/', '=', '$', '%', '&', '!', '"', '|', '<', '>', '(', ')', '[', ']', '{', '}', '.', ',', ' '];
+
+    const lines = code.split("\n");
+
+    lines.forEach((line, lineIndex) => {
+
+        const tokens = line.split(" ");
+        //console.log(tokens)
+
+        let isComment = (line.trim()[0] + line.trim()[1]) === "//"
+        //console.log(isComment)
+        //console.log(line.trim()[0] + line.trim()[1])
+
+        for (let token of tokens) {
+            let tipo;
+            //console.log(token)
+            if ( (token[0] + token[1]) === "//" ) break
+
+            if (token[0] === '$' && isNaN(token[1]) && [...token].every(caracter => alfabeto.includes(caracter))) tipo = "Identifier";
+            else if (keywords.includes(token)) tipo = "Keyword";
+            else if (!isNaN(token)) tipo = "Numeric Constant";
+            else if (token[0] === '"' && token[token.length-1] === '"') tipo = "Text Constant"
+            else if (operators.includes(token)) tipo = "Operator";
+            else if (groupSigns.includes(token)) tipo = "Delimiter";
+
+            if (token !== '' && !isComment){
+                //Añadir al frontend
+                let error = ""
+                //console.log("compare types")
+
+                if (tipo === "Numeric Constant" && operators.includes(tokens[tokens.indexOf(token) + 1])  ){
+                    if (tokens[tokens.indexOf(token) + 2][0] === '"' && tokens[tokens.indexOf(token) + 2][tokens[tokens.indexOf(token) + 2].length-1] === '"'){
+                        error = "Error: Incompatible types for operator '" + tokens[tokens.indexOf(token) + 1] + "' at. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
+                    }
+                }
+
+                if (tipo === "Text Constant" && operators.includes(tokens[tokens.indexOf(token) + 1])  ){
+                    if (!isNaN(tokens[tokens.indexOf(token) + 2])){
+                        error = "Error: Incompatible types for operator '" + tokens[tokens.indexOf(token) + 1] + "' at. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
+                    }
+                }
+                errorStack.pushError(error, lineIndex + 1, line.indexOf(token) + 1)
+
+
+            }
+
+        }
+    });
+    if(errorStack.stack.length > 0){
+        errorArea.value = errorStack.popAllErrors();
+        document.getElementById('sem').className = "red-color"
+    }else{
+        document.getElementById('sem').className = "light-green"
+    }
 
 }
 
@@ -326,6 +426,7 @@ function verificarBalanceo(codigo, errorStack) {
 
 window.alexico = alexico;
 window.asintactico = asintactico;
+window.asemantico = asemantico;
 
 
 

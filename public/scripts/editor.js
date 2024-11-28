@@ -44,6 +44,7 @@ function highlightText() {
     document.getElementById('lex').disabled = false;
     document.getElementById('lex').className = "";
     document.getElementById('sin').className = "";
+    document.getElementById('sem').className = "";
     document.getElementById('sin').disabled = true;
     document.getElementById('sem').disabled = true;
 

@@ -205,6 +205,7 @@ function abrir() {
     reader.readAsText(file);
   };
   input.click();
+    limpiar();
 }
 
 
