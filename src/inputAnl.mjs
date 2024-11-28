@@ -1,7 +1,7 @@
 //analyzeInput.mjs
 import antlr4 from 'antlr4';
-import { MyLanguageLexer } from './MyLanguageLexer.mjs';
-import { MyLanguageParser } from './MyLanguageParser.mjs';
+import { MyLanguageLexer } from './MyLanguageLexer.js';
+import { MyLanguageParser } from './MyLanguageParser.js';
 
 class MyErrorListener extends antlr4.error.ErrorListener {
     constructor() {
@@ -23,6 +23,7 @@ export function inputAnl(input) {
     const lexer = new MyLanguageLexer(chars);
     const tokens = new antlr4.CommonTokenStream(lexer);
     const parser = new MyLanguageParser(tokens);
+    
 
     const errorListener = new MyErrorListener();
     lexer.removeErrorListeners();
@@ -31,7 +32,7 @@ export function inputAnl(input) {
     parser.addErrorListener(errorListener);
 
     parser.program();
-
+    console.log(parser);
     return errorListener.getErrors();
 }
 

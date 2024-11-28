@@ -6,22 +6,22 @@ program
 
 statement
     : variableDeclaration 
-    | printStatement 
+    | printStatement
     | ifStatement
-    | forStatement
     | whileStatement
+    | forStatement
     ;
 
 variableDeclaration
-    : Identificador '=' expression
+    : Identificador '=' value
     ;
 
 printStatement
-    : 'echo' '(' (StringValue | Identificador | ConstanteNumerica) (. (StringValue | Identificador | ConstanteNumerica))? ')'
+    : 'echo' '(' (StringValue | Identificador | ConstanteNumerica) (. (StringValue | Identificador | ConstanteNumerica))? ')' 
     ;
 
 ifStatement
-    : 'if' '(' expression ')' (singleStatement | blockStatement) ('else' (singleStatement | blockStatement))?
+    : 'if' '(' expression ')' (singleStatement | blockStatement) ('elseif' '(' expression ')' (singleStatement | blockStatement))? ('else' (singleStatement | blockStatement))?
     ;
 
 whileStatement
@@ -41,37 +41,68 @@ blockStatement
     ;
 
 expression
-    : primary
-    | expression binaryOperator expression
+    : valueDos
+    ;
+
+valueDos
+    : ( '{' Identificador '}'| StringValue | ConstanteNumerica) (logicOperator ('{' Identificador '}'| StringValue | ConstanteNumerica))+
+    ;
+
+value
+    : StringValue (valuePlus)*
+    | ConstanteNumerica (valuePlus)*
+    | Identificador (valuePlus)*
     | Identificador unaryOperator
     ;
 
+valuePlus
+    : (Add | Sub | Mul | Div | Mod) ('{' Identificador '}'| StringValue | ConstanteNumerica)
+    ;
 
-primary
-    : Identificador
-    | ConstanteNumerica
-    | StringValue
-    | '(' expression ')'
+Add
+    : '+'
+    ;
+
+Sub
+    : '-'
+    ;
+
+Mul
+    : '*'
+    ;
+
+Div
+    : '/'
+    ;
+
+Mod
+    : '%'
     ;
 
 binaryOperator
     : '+' | '-' | '*' | '/' | '=' | '.=' | '.' | '%' | '==' | '!=' | '<' | '>' | '<=' | '>=' | '&&' | '||'
     ;
 
+logicOperator
+    : '==' | '!=' | '<' | '>' | '<=' | '>=' | '&&' | '||'
+    ;
+
 unaryOperator
     : '++' | '--' | '!'
     ;
 
+
 Identificador
-    : '$' [a-zA-Z_] [a-zA-Z_0-9]*
+    : '$' [a-zA-Z_] [a-zA-Z_0-9]* 
     ;
+
 
 ConstanteNumerica
     : [0-9]+ ('.' [0-9]+)?
     ;
 
 StringValue
-    : '"' .*? '"'
+    : '"' ([a-zA-Z_0-9]*)? '"'
     ;
 
 LCURLY : '{';

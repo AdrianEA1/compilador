@@ -95,12 +95,30 @@ export default class MyLanguageListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by MyLanguageParser#primary.
-	enterPrimary(ctx) {
+	// Enter a parse tree produced by MyLanguageParser#valueDos.
+	enterValueDos(ctx) {
 	}
 
-	// Exit a parse tree produced by MyLanguageParser#primary.
-	exitPrimary(ctx) {
+	// Exit a parse tree produced by MyLanguageParser#valueDos.
+	exitValueDos(ctx) {
+	}
+
+
+	// Enter a parse tree produced by MyLanguageParser#value.
+	enterValue(ctx) {
+	}
+
+	// Exit a parse tree produced by MyLanguageParser#value.
+	exitValue(ctx) {
+	}
+
+
+	// Enter a parse tree produced by MyLanguageParser#valuePlus.
+	enterValuePlus(ctx) {
+	}
+
+	// Exit a parse tree produced by MyLanguageParser#valuePlus.
+	exitValuePlus(ctx) {
 	}
 
 
@@ -110,6 +128,15 @@ export default class MyLanguageListener extends antlr4.tree.ParseTreeListener {
 
 	// Exit a parse tree produced by MyLanguageParser#binaryOperator.
 	exitBinaryOperator(ctx) {
+	}
+
+
+	// Enter a parse tree produced by MyLanguageParser#logicOperator.
+	enterLogicOperator(ctx) {
+	}
+
+	// Exit a parse tree produced by MyLanguageParser#logicOperator.
+	exitLogicOperator(ctx) {
 	}
 
 

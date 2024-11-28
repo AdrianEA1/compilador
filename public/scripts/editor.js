@@ -64,3 +64,4 @@ function highlightText() {
 //   this.style.height = 'auto'; // Restablece la altura para que se ajuste al contenido
 //   this.style.height = (this.scrollHeight) + 'px'; // Ajusta la altura según el contenido
 // });
+
