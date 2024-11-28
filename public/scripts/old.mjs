@@ -351,6 +351,10 @@ function asemantico(){
                         error = "Error: Incompatible types for operator '" + tokens[tokens.indexOf(token) + 1] + "' at. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
                         errorStack.pushError(error, lineIndex + 1, line.indexOf(token) + 1)
                     }
+                    else if (tokens[tokens.indexOf(token) + 1] === "/" && tokens[tokens.indexOf(token) + 2] === "0"){
+                        error = "Error: Division by zero. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
+                        errorStack.pushError(error, lineIndex + 1, line.indexOf(token) + 1)
+                    }
                 }
 
                 if (tipo === "Text Constant" && operators.includes(tokens[tokens.indexOf(token) + 1])  ){
@@ -372,7 +376,7 @@ function asemantico(){
                             if (celda.textContent === token){
                                 id = index;
                                 founded = fila
-                                console.log("founded: "+fila.cells[fila.cells.length-1].textContent)
+                                //console.log("founded: "+fila.cells[fila.cells.length-1].textContent)
                             }
                         }
                         index++
@@ -381,10 +385,15 @@ function asemantico(){
                         if (founded.cells[founded.cells.length-1].textContent === "" && tokens[tokens.indexOf(token) + 1] !== "=") {
                             //console.log("Not declared")
                             error = "Error: There is not a value for '" + token + "' to be used. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
-                            console.log(errorStack)
+                            //console.log(errorStack)
+                            errorStack.pushError(error, lineIndex + 1, line.indexOf(token) + 1)
+                        }
+                        else if (tokens[tokens.indexOf(token) + 1] === "/" && tokens[tokens.indexOf(token) + 2] === "0"){
+                            error = "Error: Division by zero. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
                             errorStack.pushError(error, lineIndex + 1, line.indexOf(token) + 1)
                         }
                     }
+
 
 
 
