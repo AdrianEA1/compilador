@@ -345,21 +345,50 @@ function asemantico(){
             if (token !== '' && !isComment){
                 //Añadir al frontend
                 let error = ""
-                //console.log("compare types")
 
                 if (tipo === "Numeric Constant" && operators.includes(tokens[tokens.indexOf(token) + 1])  ){
                     if (tokens[tokens.indexOf(token) + 2][0] === '"' && tokens[tokens.indexOf(token) + 2][tokens[tokens.indexOf(token) + 2].length-1] === '"'){
                         error = "Error: Incompatible types for operator '" + tokens[tokens.indexOf(token) + 1] + "' at. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
+                        errorStack.pushError(error, lineIndex + 1, line.indexOf(token) + 1)
                     }
                 }
 
                 if (tipo === "Text Constant" && operators.includes(tokens[tokens.indexOf(token) + 1])  ){
                     if (!isNaN(tokens[tokens.indexOf(token) + 2])){
                         error = "Error: Incompatible types for operator '" + tokens[tokens.indexOf(token) + 1] + "' at. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
+                        errorStack.pushError(error, lineIndex + 1, line.indexOf(token) + 1)
                     }
                 }
-                errorStack.pushError(error, lineIndex + 1, line.indexOf(token) + 1)
 
+
+                let value = ""
+                if (tipo === "Identifier"){
+                    let id = -1
+                    let index = 0
+                    let founded
+
+                    for (let fila of tokenTable.rows) {
+                        for (let celda of fila.cells) {
+                            if (celda.textContent === token){
+                                id = index;
+                                founded = fila
+                                console.log("founded: "+fila.cells[fila.cells.length-1].textContent)
+                            }
+                        }
+                        index++
+                    }
+                    if (id !== -1){
+                        if (founded.cells[founded.cells.length-1].textContent === "" && tokens[tokens.indexOf(token) + 1] !== "=") {
+                            //console.log("Not declared")
+                            error = "Error: There is not a value for '" + token + "' to be used. Line: " + (lineIndex + 1) + " Column: " + (line.indexOf(token) + 1)
+                            console.log(errorStack)
+                            errorStack.pushError(error, lineIndex + 1, line.indexOf(token) + 1)
+                        }
+                    }
+
+
+
+                }
 
             }
 
@@ -479,10 +508,11 @@ class ErrorStack {
         while (this.stack.length > 0){
 
             const error = this.stack.pop();
+            //console.log("error=> "+error.error)
             errors = error.error + "\n" +  errors;
             //console.log(ErrorStack.errorTypes[error.error])
         }
-        console.log(errors)
+        //console.log(errors)
         return errors
     }
 
