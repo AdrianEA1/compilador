@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 20px;
+
+        }
+
+        .team-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .card img {
+            height: 265px;
+            border-radius: 60%;
+            object-fit: cover;
+        }
+
+        .card h3 {
+            margin: 15px 0 10px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .card p {
+            color: #777;
+            font-size: 14px;
+        }
+        .button-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1 style="text-align: center;">Enlaces a la documentación</h1>
+<div class="team-container">
+    <div class="card">
+        <button class="menu-button" onclick="window.open('https://drive.google.com/file/d/1NwH8_mZ_AerqEaBGj6_4T6FoYqT2f-on/view?usp=sharing', '_blank')">Análisis léxico</button>
+    </div>
+    <div class="card">
+        <button class="menu-button" onclick="window.open('https://drive.google.com/file/d/1odLw0BhBN9yXYDjvENpr4dd71UmLdFAq/view?usp=sharing', '_blank')">Análisis sintáctico</button>
+    </div>
+    <div class="card">
+        <button class="menu-button" onclick="window.open('https://drive.google.com/file/d/1YSPNBnxtVh3naUsW6HY2XMmKjdjoRJr0/view?usp=sharing', '_blank')">Análisis semántico</button>
+    </div>
+    <div class="card">
+        <button class="menu-button" onclick="window.open('https://drive.google.com/file/d/142T_stkMA_n_XRtYP6ptD-rPWCMCCGy4/view?usp=sharing', '_blank')">Documentación del proyecto</button>
+    </div>
+
+</div>
+<br>
+<div class="button-container">
+    <button onclick="window.location.href='index.html'" class="menu-button">Volver al compilador</button>
+</div>
+
+</body>
+</html>
