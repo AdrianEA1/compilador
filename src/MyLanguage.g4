@@ -21,7 +21,7 @@ printStatement
     ;
 
 ifStatement
-    : 'if' '(' expression ')' (singleStatement | blockStatement) ('elseif' '(' expression ')' (singleStatement | blockStatement))? ('else' (singleStatement | blockStatement))?
+    : 'if' '(' expression ')' (singleStatement | blockStatement) ('else' (singleStatement | blockStatement))?
     ;
 
 whileStatement
@@ -29,7 +29,7 @@ whileStatement
     ;
 
 forStatement
-    : 'foreach' '(' Identificador 'as' Identificador ')' (singleStatement | blockStatement)
+    : 'foreach' '(' '{' Identificador '}' 'as' '{' Identificador '}' ')' (singleStatement | blockStatement)
     ;
 
 singleStatement
@@ -45,7 +45,7 @@ expression
     ;
 
 valueDos
-    : ( '{' Identificador '}'| StringValue | ConstanteNumerica) (logicOperator ('{' Identificador '}'| StringValue | ConstanteNumerica))+
+    : ( '{' Identificador '}' | StringValue | ConstanteNumerica ) ( logicOperator ('{' Identificador '}'| StringValue | ConstanteNumerica))+
     ;
 
 value
